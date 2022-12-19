@@ -1,0 +1,146 @@
+<div class="container">
+  <div class="box">
+    <div class="doctors">
+      <button (click)="deleteAllDoctors()" class="deleteAllBtn">
+        Delete All Doctors
+      </button>
+      <h2>Doctors</h2>
+      <hr />
+      <h4>Find a doctor</h4>
+      <form [formGroup]="findDoctorForm" (ngSubmit)="findDoctor()">
+        <input
+          type="number"
+          formControlName="doctorId"
+          pattern="[0-9]*"
+          placeholder="Doctor's ID"
+        />
+        <button type="submit">Find</button>
+      </form>
+
+      <div *ngIf="foundDoctor as doctor">
+        <p><b>Doctor found: </b>{{ doctor.full_name }}</p>
+      </div>
+
+      <hr />
+      <h4>Add a doctor</h4>
+      <form [formGroup]="addDoctorForm" (ngSubmit)="addDoctor()">
+        <input
+          type="text"
+          formControlName="full_name"
+          placeholder="Doctor's full name"
+        />
+        <button type="submit">Add</button>
+      </form>
+
+      <hr />
+      <h4>Doctors list</h4>
+      <div *ngIf="doctors.length === 0">No doctors found</div>
+      <ul>
+        <li *ngFor="let doctor of doctors">
+          {{ doctor.full_name }}
+          <div class="UpdateDelete">
+            <button (click)="deleteDoctor(doctor.id)">Delete</button>
+            <button (click)="showUpdateDoctorForm(doctor)">Update</button>
+          </div>
+          <form
+            *ngIf="selectedDoctor === doctor"
+            [formGroup]="updateDoctorForm"
+            (ngSubmit)="updateDoctor(doctor.id)"
+            class="updateForm"
+          >
+            <div>
+              <input
+                type="text"
+                formControlName="full_name"
+                placeholder="Doctor's full name"
+              />
+            </div>
+            <div>
+              <button type="submit">Update</button>
+              <button (click)="selectedDoctor = null">Cancel</button>
+            </div>
+          </form>
+        </li>
+      </ul>
+    </div>
+    <div class="patients">
+      <button (click)="deleteAllPatients()" class="deleteAllBtn">
+        Delete All Patients
+      </button>
+      <h2>Patients</h2>
+      <hr />
+      <h4>Find a patient</h4>
+      <form [formGroup]="findPatientForm" (ngSubmit)="findPatient()">
+        <input
+          type="number"
+          formControlName="patientId"
+          pattern="[0-9]*"
+          placeholder="Patient's ID"
+        />
+        <button type="submit">Find</button>
+      </form>
+
+      <div *ngIf="foundPatient as patient">
+        <h4>Patient found</h4>
+        <p>{{ patient.full_name }}</p>
+      </div>
+
+      <hr />
+      <h4>Add a patient</h4>
+      <form [formGroup]="addPatientForm" (ngSubmit)="addPatient()">
+        <input
+          type="text"
+          formControlName="full_name"
+          placeholder="Patient's full name"
+        />
+        <select formControlName="doctor_id">
+          <option value="" disabled selected hidden>Assigned Doctor</option>
+          <option *ngFor="let doctor of doctors" [value]="doctor.id">
+            {{ doctor.full_name }}
+          </option>
+        </select>
+        <button type="submit">Add</button>
+      </form>
+      <hr />
+      <h4>Patients list</h4>
+      <div *ngIf="patients.length === 0">No patients found</div>
+      <ul>
+        <li *ngFor="let patient of patients">
+          {{ patient.full_name }}
+
+          <div class="UpdateDelete">
+            <button (click)="deletePatient(patient.id)">Delete</button>
+            <button (click)="showUpdatePatientForm(patient)">Update</button>
+          </div>
+          <form
+            *ngIf="selectedPatient === patient"
+            [formGroup]="updatePatientForm"
+            (ngSubmit)="updatePatient(patient.id)"
+            class="updateForm"
+          >
+            <div>
+              <input
+                type="text"
+                formControlName="full_name"
+                placeholder="Patient's full name"
+              />
+
+              <select formControlName="doctor_id">
+                <option value="" disabled selected hidden>
+                  Assigned Doctor
+                </option>
+                <option *ngFor="let doctor of doctors" [value]="doctor.id">
+                  {{ doctor.full_name }}
+                </option>
+              </select>
+            </div>
+            <div>
+              <button type="submit">Update</button>
+              <button (click)="selectedPatient = null">Cancel</button>
+            </div>
+          </form>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

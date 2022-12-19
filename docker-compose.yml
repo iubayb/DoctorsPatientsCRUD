@@ -1,0 +1,67 @@
+networks:
+  internalnet:
+    driver: bridge
+
+services:
+  mysqldb:
+    image: mysql:latest
+    container_name: mysqlcontainer
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    volumes:
+      - ./backend/dbinit/init.sql:/docker-entrypoint-initdb.d/0_init.sql
+      - $HOME/database:/var/lib/mysql
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    environment:
+      MYSQL_DATABASE: DoctorsPatientsDB
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+      SERVICE_TAGS: prod
+      SERVICE_NAME: mysqldb
+    networks:
+      - internalnet
+
+  nodebackend:
+    container_name: nodebackendcontainer
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    image: nodebackend:v1
+    volumes:
+      - $HOME/nodebackend:/code
+    ports:
+      - 3000:3000
+    expose:
+      - 3000
+    environment:
+      DB_HOST: mysqldb
+      DB_PORT: 3306
+      DB_USER: "admin"
+      DB_PASSWORD: "password"
+      DB_NAME: DoctorsPatientsDB
+      DB_CONNECTION_LIMIT: 20
+      DB_QUEUE_LIMIT: 100
+      SERVICE_TAGS: prod
+      SERVICE_NAME: nodebackendservice
+      SERVER_PORT: 3000
+    depends_on:
+      - mysqldb
+    networks:
+      - internalnet
+
+  angularfrontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    image: angularfrontend:v1
+    container_name: angularfrontend
+    ports:
+      - 4200:80
+    depends_on:
+      - nodebackend
+    networks:
+      - internalnet

@@ -1,0 +1,129 @@
+.container {
+  background-color: #111;
+  color: white;
+  min-height: 100vh;
+  min-width: 100vw;
+  position: absolute;
+  .box {
+    margin-inline: auto;
+    max-width: 1100px;
+    background-color: black;
+    @media (min-width: 768px) {
+      margin-top: 20px;
+    }
+    border: 1px solid #333;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    @media (min-width: 768px) {
+      flex-direction: row;
+    }
+    .patients,
+    .doctors {
+      flex: 0 1 50%;
+      margin: 20px 0;
+      padding-inline: 12px;
+      @media (min-width: 768px) {
+        padding-inline: 40px;
+      }
+
+      h2 {
+        margin-top: 0;
+      }
+
+      button,
+      input,
+      select {
+        background: none;
+        font-size: 12px;
+        color: #999;
+        border: 1px solid #999;
+        padding: 8px;
+        border-radius: 5px;
+        cursor: pointer;
+
+        transition: border 0.18s ease-in, color 0.1s;
+
+        &:focus {
+          outline-color: white;
+          outline-style: solid;
+          outline-width: 1px;
+          color: white;
+        }
+
+        &[type="number"] {
+          -moz-appearance: textfield;
+          &::-webkit-outer-spin-button,
+          &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+          }
+        }
+        &:hover {
+          color: white;
+          border: 1px solid white;
+        }
+        &.deleteAllBtn {
+          float: right;
+        }
+      }
+      select {
+        color: #666;
+      }
+
+      button {
+        padding-inline: 15px;
+      }
+
+      select,
+      input {
+        width: 150px;
+        font-size: 13px;
+        border: 1px solid black;
+        border-bottom: 1px solid #999;
+      }
+
+      form {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+      ul{
+        padding-left: 5px;
+      li {
+        margin: 20px 0;
+        .UpdateDelete {
+          float: right;
+          display: flex;
+          gap: 10px;
+        }
+        .updateForm{
+            margin: 40px 0;
+            div{
+                display: flex;
+                flex-direction: row;
+                gap: 10px;
+                width: fit-content;
+                margin: auto;
+            }
+        }
+      }}
+      hr {
+        height: 1px;
+        background-color: #333;
+        border: none;
+        margin-top: 30px;
+      }
+    }
+    .doctors {
+      @media (min-width: 768px) {
+        border-right: 1px solid #333;
+      }
+    }
+
+    .patients {
+      @media (min-width: 768px) {
+        border-left: 1px solid #333;
+      }
+    }
+  }
+}
