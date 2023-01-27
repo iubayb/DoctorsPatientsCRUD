@@ -1,6 +1,5 @@
 # DoctorsPatientsCRUD
 
-😬 no tests, but I can add them if required
 
 screenshot: 
 ![alt text](https://i.ibb.co/X2tsQn3/Firefox-Screenshot-2022-12-19-T05-05-40-431-Z.png "screenshot")
